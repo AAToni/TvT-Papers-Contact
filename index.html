@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORCID Redirect</title>
+    <script>
+        // Parse the "code" query parameter
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+
+        if (code) {
+            // Send the code to your backend server
+            fetch('https://your-backend-server.com/orcid-callback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.body.innerHTML = `<h1>Authentication Successful</h1>`;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.body.innerHTML = `<h1>Authentication Failed</h1>`;
+            });
+        } else {
+            document.body.innerHTML = `<h1>No authentication code found</h1>`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Processing Authentication...</h1>
+</body>
+</html>
